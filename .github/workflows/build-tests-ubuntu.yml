@@ -90,6 +90,7 @@ jobs:
           #projectPath: ${{ matrix.projectPath }}
           #unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildMethod: UnityBuilderAction.BuildScript.Build
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           providerStrategy: ${{ matrix.providerStrategy }}
 
@@ -110,6 +111,7 @@ jobs:
           #projectPath: ${{ matrix.projectPath }}
           #unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildMethod: UnityBuilderAction.BuildScript.Build
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           providerStrategy: ${{ matrix.providerStrategy }}
           allowDirtyBuild: true
@@ -130,6 +132,7 @@ jobs:
           #projectPath: ${{ matrix.projectPath }}
           #unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildMethod: UnityBuilderAction.BuildScript.Build
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           providerStrategy: ${{ matrix.providerStrategy }}
           allowDirtyBuild: true
