@@ -60,9 +60,9 @@ jobs:
         uses: game-ci/unity-builder@v4
         id: build-1
         continue-on-error: true
-        #env:
-          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -81,9 +81,9 @@ jobs:
         id: build-2
         if: ${{ steps.build-1.outcome == 'failure' }}
         continue-on-error: true
-        #env:
-          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -102,9 +102,9 @@ jobs:
         uses: game-ci/unity-builder@v4
         id: build-3
         if: ${{ steps.build-2.outcome == 'failure' }}
-        #env:
-          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
