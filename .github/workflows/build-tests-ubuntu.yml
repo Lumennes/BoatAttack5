@@ -60,16 +60,16 @@ jobs:
         uses: game-ci/unity-builder@v4
         id: build-1
         continue-on-error: true
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        #env:
+          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
-          #unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           buildMethod: UnityBuilderAction.BuildScript.Build
-          customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
-          providerStrategy: ${{ matrix.providerStrategy }}
+          # customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          # providerStrategy: ${{ matrix.providerStrategy }}
 
       - name: Sleep for Retry
         if: ${{ steps.build-1.outcome == 'failure' }}
@@ -81,16 +81,16 @@ jobs:
         id: build-2
         if: ${{ steps.build-1.outcome == 'failure' }}
         continue-on-error: true
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        #env:
+          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
-          #unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           buildMethod: UnityBuilderAction.BuildScript.Build
-          customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
-          providerStrategy: ${{ matrix.providerStrategy }}
+          # customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          # providerStrategy: ${{ matrix.providerStrategy }}
           allowDirtyBuild: true
 
       - name: Sleep for Retry
@@ -102,9 +102,9 @@ jobs:
         uses: game-ci/unity-builder@v4
         id: build-3
         if: ${{ steps.build-2.outcome == 'failure' }}
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        #env:
+          #UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          #UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -122,8 +122,9 @@ jobs:
           # name: Build ${{ matrix.projectName }} (${{ matrix.targetPlatform }} ${{ matrix.unityVersion }})
           # path: build/${{ matrix.targetPlatform }}
           # retention-days: 14
-          
-        - uses: Difegue/action-megacmd@master
+
+      - name: Deploy to MEGA
+        uses: Difegue/action-megacmd@master
         with:
           args: put -c build/${{ matrix.targetPlatform }} /Unity_projects/${{ matrix.projectName }}/${{ matrix.projectName }}_${{ matrix.unityVersion }}_${{ matrix.targetPlatform }}/
         env:
