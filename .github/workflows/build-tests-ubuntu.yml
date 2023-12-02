@@ -41,15 +41,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        providerStrategy:
+        # providerStrategy:
           # - local-docker
-          - local
+          # - local
         projectName:
           - BoatAttack5
-        #unityVersion:
+        unityVersion:
           #- 2021.3.32f1
           #- 2022.3.13f1
-          #- 2020.3.48f1
+          - 2020.3.48f1
         targetPlatform:
           #- StandaloneOSX # Build a macOS standalone (Intel 64-bit) with mono backend.
           - StandaloneWindows64 # Build a Windows 64-bit standalone with mono backend.
@@ -130,18 +130,25 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           #projectPath: ${{ matrix.projectPath }}
-          #unityVersion: ${{ matrix.unityVersion }}
+          unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           buildMethod: UnityBuilderAction.BuildScript.Build
-          customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
-          providerStrategy: ${{ matrix.providerStrategy }}
+          # customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          # providerStrategy: ${{ matrix.providerStrategy }}
           allowDirtyBuild: true
 
       ###########################
       #          Upload         #
       ###########################
-      - uses: actions/upload-artifact@v3
+      # - uses: actions/upload-artifact@v3
+        # with:
+          # name: Build ${{ matrix.projectName }} (${{ matrix.targetPlatform }} ${{ matrix.unityVersion }})
+          # path: build/${{ matrix.targetPlatform }}
+          # retention-days: 14
+          
+        - uses: Difegue/action-megacmd@master
         with:
-          name: Build ${{ matrix.projectName }} (${{ matrix.targetPlatform }} ${{ matrix.unityVersion }})
-          path: build/${{ matrix.targetPlatform }}
-          retention-days: 14
+          args: put -c build/${{ matrix.targetPlatform }} /Unity_projects/${{ matrix.projectName }}/${{ matrix.projectName }}_${{ matrix.unityVersion }}_${{ matrix.targetPlatform }}/
+        env:
+          USERNAME: ${{ secrets.MEGA_USERNAME }}
+          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
